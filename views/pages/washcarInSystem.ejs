@@ -1,0 +1,260 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+
+  <meta charset="UTF-8">
+  <meta http-equiv="X-UA-Compatible" content="IE=edge">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <!-- <link rel="stylesheet" href="css/washcarInSystem.css"> -->
+  <!-- <link rel="stylesheet" href="css/managePromotion.css"> -->
+  <link rel="stylesheet" href="css/setting.css">
+  <link rel="stylesheet" href="css/index.css">
+  <link rel="stylesheet" href="/css/dashbord.css">
+  <link rel="stylesheet" href="https://fonts.googleapis.com/css?family=Prompt">
+  <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0-alpha1/dist/css/bootstrap.min.css">
+  <script type="text/javascript" src="https://www.gstatic.com/charts/loader.js"></script>
+  <script type="text/javascript">
+    google.charts.load("current", { packages: ["corechart"] });
+    google.charts.setOnLoadCallback(drawChart);
+    function drawChart() {
+      // บอกตู้แต่ละตู้ใช้งานเยอะขนาดไหน
+      var data_total_use_group = JSON.parse('<%- result_chart_use_group %>')
+      console.log(Object.keys(data_total_use_group).length)
+      data_total_use_group.unshift(['Task', 'จำนวนการใช้งาน'])
+      if (Object.keys(data_total_use_group).length == 1) {
+        data_total_use_group.push(['ยังไม่มีการใช้งาน', 0])
+      }
+      console.log(data_total_use_group)
+      var data = google.visualization.arrayToDataTable(
+
+        data_total_use_group
+        //[
+        // ['Task', 'จำนวนการใช้งาน'],
+        //   [ 'กังสดาล', 2 ], [ 'ชุมแพ', 1 ]
+        //]
+      );
+
+      var options = {
+        title: 'อัตราส่วนการใช้งานแต่ละตู้',
+        is3D: true,
+      };
+
+      var chart = new google.visualization.PieChart(document.getElementById('donutchart'));
+      chart.draw(data, options);
+    }
+  </script>
+
+  <title>ตู้ในระบบ</title>
+</head>
+
+<body>
+  <div class="container-fluid">
+    <!-- <div class="head">
+      <a href="/index"> <img src="img/logo.png" alt="logo" class="img-logo"></a>
+    </div> -->
+
+    <div class="row" id="content">
+
+      <div class="col-2 px-0" id="box-left">
+        <ul>
+          <li class="CarWash"><a href="/index">CarWash</a></li>
+          <li> <img id="imgAdmin" src="https://cdn-icons-png.flaticon.com/512/456/456283.png" alt=""> <span
+              id="superadmin">
+              <%= admin_name %>
+            </span></li>
+          <hr class="hr1">
+          <li><a href="/index">ภาพรวมระบบ</a></li>
+          <% if ( branch!=0) { %>
+            <li><a>ถอนเงิน</a></li>
+            <% } %>
+              <% if ( branch!=0) { %>
+                <li><a href="/show_branch">ธุรกรรม</a></li>
+                <% } %>
+          <li class="active"><a href="/washcarinsystem">ตู้ในระบบ</a></li>
+
+          <% if ( branch==0) { %>
+            <li><a href="/show_admin">แสดงบัญชีผู้ประกอบการ</a></li>
+            <% } %>
+              <li><a href="/show_cus">แสดงบัญชีลูกค้า</a></li>
+              <% if ( branch==0) { %>
+                <li><a href="/show_branch">จัดการข้อมูลสาขา</a></li>
+                <% } %>
+                  <li><a href="/managepromotion">จัดการโปรโมชัน</a></li>
+                  <li><a href="/logout">ออกจากระบบ</a></li>
+        </ul>
+      </div>
+
+      <div class="col-10 ">
+        <div class="row">
+          <div class="col-9">
+            <div class="row">
+              <div class="col">
+                <div class="card">
+                  <table class="table table-striped">
+                    <thead>
+                      <tr>
+                        <th scope="col">รูปแบบ</th>
+                        <th scope="col" style="text-align: center;">อัตราเครดิต : วินาที</th>
+                      </tr>
+                    </thead>
+                    <tbody>
+                      <tr>
+                        <td>น้ำ</td>
+                        <td style="text-align: center;"> 2 : 1 </td>
+                        <td> <button class="btn btn-warning btn-sm"> แก้ไข </button></td>
+                      </tr>
+                      <tr>
+                        <td>โฟม</td>
+                        <td style="text-align: center;"> 2 : 1 </td>
+                        <td> <button class="btn btn-warning btn-sm"> แก้ไข </button></td>
+                      </tr>
+                      <tr>
+                        <td>ลม</td>
+                        <td style="text-align: center;"> 2 : 1 </td>
+                        <td> <button class="btn btn-warning btn-sm"> แก้ไข </button></td>
+                      </tr>
+                    </tbody>
+
+                  </table>
+                </div>
+              </div>
+            </div>
+
+
+            <div class="row mt-3">
+              <div class="col-4">
+                <div class="card  " style="width: 100%;">
+                  <div class="card-body">
+                    <h5 class="card-title">ยอดเงินเฉลี่ยต่อวัน : บาท </h5>
+                    <div class="card-text cardtxt" id="total_price">
+                      <%= result_chart_use_money_day[0].day_total==null ? 0 : parseFloat(result_chart_use_money_day[0].day_total).toFixed(2) %>
+                    </div>
+                  </div>
+                </div>
+              </div>
+              <div class="col-4">
+                <div class="card" style="width: 100%;">
+                  <div class="card-body">
+                    <h5 class="card-title">ยอดเงินเฉลี่ยต่อเดือน : บาท </h5>
+                    <div class="card-text cardtxt" id="total_price_month">
+                      <%= result_chart_use_money_month[0].month_total==null ? 0 : parseFloat(result_chart_use_money_month[0].month_total).toFixed(2) %>
+                    </div>
+                  </div>
+                </div>
+              </div>
+              <div class="col-4">
+                <div class="card" style="width: 100%;">
+                  <div class="card-body">
+                    <h5 class="card-title">ยอดเงินเฉลี่ยต่อปี : บาท</h5>
+                    <div class="card-text cardtxt">
+                      <%= result_chart_use_money_year[0].year_total==null ? 0 : parseFloat(result_chart_use_money_year[0].year_total).toFixed(2) %>
+                    </div>
+                  </div>
+                </div>
+              </div>
+            </div>
+            <div class="card mt-3">
+              <div class="row m-3">
+
+                <!-- <div class="col-12" id="box-right">
+                <div class="box1-2">
+                  <div class="card mt-3" style="width: 100%;">
+                    <div class="card-body">
+                      <div class="box1-3">
+                        
+                      </div>
+                    </div>
+                  </div>
+                </div>
+              </div> -->
+
+                <% result_carwash_branch.forEach ( function ( recorddata_branch, index ) { %>
+                  <% if ( data_carwash.length> 0 ) { %>
+                    <% if ( index==0 ) { %>
+                      <div class="row " style="font-size: 1.25em;">
+                        <%= recorddata_branch.name_branch %>
+                          <div class=" ms-4 btn  btn-sm" style="width: 10%; border: 1px black solid;">ดูข้อมูล</div>
+                      </div>
+                      <% }else{ %>
+                        <div class="row mt-4" style="font-size: 1.25em;">
+                          <%= recorddata_branch.name_branch %>
+                            <div class=" ms-4 btn  btn-sm" style="width: 10%;border: 1px black solid;">ดูข้อมูล</div>
+                        </div>
+                        <% }%>
+                          <% if ( data_carwash.length> 0 ) { %>
+                            <% i=0 %>
+                              <% data_carwash.forEach ( function ( recorddata, index ) { %>
+                                <% if ( recorddata.branch_id==recorddata_branch.id_branch ) { %>
+
+                                  <div class="col-3 mt-2">
+                                    <% if ( recorddata.status==1 ) { %>
+                                      <div class="card text-bg-success" id="<%= recorddata.idcar_wash %>"
+                                        style="width: 100%; ">
+                                        <% } else { %>
+                                          <div class="card text-bg-warning " id="<%= recorddata.idcar_wash %>"
+                                            style="width: 100%;">
+                                            <% } %>
+                                              <div class="card-body">
+                                                <h4 class="card-title" style="font-size: 1em;">
+                                                  ตู้ลำดับที่ <%= i+=1 %>
+                                                </h4>
+                                                <p style="text-align: left;">
+                                                  <% if ( recorddata.status==1 ) { %>
+                                                    กำลังใช้งาน
+                                                    <% } else { %>
+                                                      พบปัญหา
+                                                      <% } %>
+                                                </p>
+                                              </div>
+                                          </div>
+                                      </div>
+                                      <% } %>
+                                        <% } ); %>
+
+                                          <% } else { %>
+                                            <tr>
+                                              <td colspan="100%">- ไม่มีข้อมูล -</td>
+                                            </tr>
+                                            <% } %>
+                                              <% } %>
+                                                <% } ); %>
+                                  </div>
+
+              </div>
+            </div>
+
+
+            <div class="col-3 px-0">
+              <div class="box_rigt">
+                <div class="card" style="width: 100%;">
+                  <div class="card-body">
+                    <!-- <h5 class="card-title">จำนวนตู้</h5> -->
+                    <div class="box1-3">
+                      <div id="donutchart" style="width: 100%; height: 100%;"></div>
+                    </div>
+                  </div>
+                </div>
+
+
+              </div>
+              <div class="colum mt-3">
+                <div class="alert alert-success box box_active" role="alert">
+                  ตู้ที่สามารถใช้งาน <%= data_use[0].usecar %> เครื่อง
+                </div>
+                <div class="alert alert-warning box box_problem" role="alert">
+                  ตู้มีปัญหา <%= data_accident[0].accident %> เครื่อง
+                </div>
+                <div class="alert alert-danger box box_damaged" role="alert">
+                  ตู้เสีย <%= data_damaged[0].damaged %> เครื่อง
+                </div>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+
+</body>
+
+</html>
