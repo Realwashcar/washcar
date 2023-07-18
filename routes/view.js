@@ -25,11 +25,13 @@ router.use(session({
   saveUninitialized: false
 }));
 const db = mysql.createPool({
-  host: 'projectmysql.mysql.database.azure.com',
-  user: 'apipathadmin',
-  password: '0988709784k+',
-  database: 'projectp_success',
-  port: '3306'
+  host: '119.59.96.62',
+  user: 'drchanon',
+  password: 'nonahcrd123',
+  database: 'LAB_DB',
+  port: '3306',
+  waitForConnections: true,
+  queueLimit: 0
 });
 
 const sessionChecker = (req, res, next) => {

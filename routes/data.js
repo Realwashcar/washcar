@@ -20,11 +20,13 @@ const path = require('path');
 const db_fb = admin.database();
 //  ssl: { ca: fs.readFileSync(path.join(__dirname, 'cert', 'DigiCertGlobalRootCA.crt.pem')) }
 const db = mysql.createPool({
-  host: 'projectmysql.mysql.database.azure.com',
-  user: 'apipathadmin',
-  password: '0988709784k+',
-  database: 'projectp_success',
+  host: '119.59.96.62',
+  user: 'drchanon',
+  password: 'nonahcrd123',
+  database: 'LAB_DB',
   port: '3306',
+  waitForConnections: true,
+  queueLimit: 0
 });
 
 router.connect(function (err) {
