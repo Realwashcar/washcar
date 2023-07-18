@@ -1,9 +1,14 @@
 {
+<<<<<<< HEAD
   "name": "ejsproject",
+=======
+  "name": "starter-express-api",
+>>>>>>> 8c59da3497342d6cb4e0e05ed2a5f90009277cfc
   "version": "1.0.0",
   "description": "",
   "main": "index.js",
   "scripts": {
+<<<<<<< HEAD
     "test": "echo \"Error: no test specified\" && exit 1",
     "dev": "nodemon app.js"
   },
@@ -16,5 +21,21 @@
     "firebase-admin": "^11.9.0",
     "mysql": "^2.18.1",
     "nodemon": "^2.0.22"
+=======
+    "start": "node index.js"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/cyclic-software/starter-express-api.git"
+  },
+  "author": "",
+  "license": "ISC",
+  "bugs": {
+    "url": "https://github.com/cyclic-software/starter-express-api/issues"
+  },
+  "homepage": "https://github.com/cyclic-software/starter-express-api#readme",
+  "dependencies": {
+    "express": "^4.18.2"
+>>>>>>> 8c59da3497342d6cb4e0e05ed2a5f90009277cfc
   }
 }
