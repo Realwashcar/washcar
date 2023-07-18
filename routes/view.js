@@ -17,8 +17,6 @@ const mysql = require('mysql2/promise');
 // });
 
 // const db_fb = admin.database();
-
-
 router.use(session({
   secret: 'mysecretkey',
   resave: false,
